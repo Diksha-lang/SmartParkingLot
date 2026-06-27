@@ -1,6 +1,6 @@
 package com.airtribe.parkinglot.model;
 
-public class Vehicle {
+public abstract class Vehicle {
 
     private String vehicleNumber;
     private VehicleType vehicleType;
@@ -16,13 +16,5 @@ public class Vehicle {
 
     public VehicleType getVehicleType() {
         return vehicleType;
-    }
-
-    public void setVehicleNumber(String vehicleNumber) {
-        this.vehicleNumber = vehicleNumber;
-    }
-
-    public void setVehicleType(VehicleType vehicleType) {
-        this.vehicleType = vehicleType;
     }
 }

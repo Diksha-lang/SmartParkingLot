@@ -1,39 +1,41 @@
 package com.airtribe.parkinglot.service;
 
-import com.airtribe.parkinglot.model.*;
+import com.airtribe.parkinglot.exception.ParkingException;
+import com.airtribe.parkinglot.model.ParkingSpot;
+import com.airtribe.parkinglot.model.Vehicle;
 
 import java.util.List;
 
 public class ParkingService {
 
-    public ParkingSpot findAvailableSpot(List<ParkingSpot> parkingSpots, VehicleType vehicleType) {
+    public ParkingSpot parkVehicle(List<ParkingSpot> parkingSpots, Vehicle vehicle) {
 
         for (ParkingSpot spot : parkingSpots) {
-            if (!spot.isOccupied() && spot.getVehicleType() == vehicleType) {
+
+            if (!spot.isOccupied()
+                    && spot.getVehicleType() == vehicle.getVehicleType()) {
+
+                spot.setOccupied(true);
+
+                System.out.println("Vehicle parked successfully.");
+                System.out.println("Parking Spot ID: " + spot.getSpotId());
+
                 return spot;
             }
         }
 
-        return null;
-    }
-
-    public void parkVehicle(ParkingSpot spot) {
-
-        if (spot != null) {
-            spot.setOccupied(true);
-            System.out.println("Vehicle parked successfully.");
-            System.out.println("Parking Spot ID: " + spot.getSpotId());
-        } else {
-            System.out.println("No parking spot available.");
-        }
+        throw new ParkingException("No parking spot available for "
+                + vehicle.getVehicleType());
     }
 
     public void removeVehicle(ParkingSpot spot) {
 
-        if (spot != null) {
-            spot.setOccupied(false);
-            System.out.println("Vehicle exited successfully.");
+        if (spot == null) {
+            throw new ParkingException("Invalid parking spot.");
         }
+
+        spot.setOccupied(false);
+        System.out.println("Vehicle exited successfully.");
     }
 
     public void displayAvailableSpots(List<ParkingSpot> parkingSpots) {
@@ -41,8 +43,14 @@ public class ParkingService {
         System.out.println("\nAvailable Parking Spots:");
 
         for (ParkingSpot spot : parkingSpots) {
+
             if (!spot.isOccupied()) {
-                System.out.println("Spot " + spot.getSpotId() + " (" + spot.getVehicleType() + ")");
+
+                System.out.println("Spot "
+                        + spot.getSpotId()
+                        + " ("
+                        + spot.getVehicleType()
+                        + ")");
             }
         }
     }

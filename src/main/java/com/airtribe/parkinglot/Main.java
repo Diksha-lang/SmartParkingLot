@@ -19,17 +19,14 @@ public class Main {
 
         ParkingService parkingService = new ParkingService();
 
-        Vehicle vehicle = new Vehicle("KA01AB1234", VehicleType.CAR);
+        Vehicle vehicle = new Car("KA01AB1234");
 
-        ParkingSpot spot = parkingService.findAvailableSpot(
-                parkingSpots,
-                vehicle.getVehicleType());
-
-        parkingService.parkVehicle(spot);
+        ParkingSpot allocatedSpot =
+                parkingService.parkVehicle(parkingSpots, vehicle);
 
         parkingService.displayAvailableSpots(parkingSpots);
 
-        parkingService.removeVehicle(spot);
+        parkingService.removeVehicle(allocatedSpot);
 
         parkingService.displayAvailableSpots(parkingSpots);
     }
